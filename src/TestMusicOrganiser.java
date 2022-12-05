@@ -6,7 +6,7 @@ public class TestMusicOrganiser {
         System.out.println(m.getNumberOfTracks());
         //Track t = new Track("");
         m.stopPlaying();
-        m.playTrack(9);
+        m.playSample(9);
 
         //m.playTrack(1);
 

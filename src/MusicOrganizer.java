@@ -59,7 +59,19 @@ public class MusicOrganizer
             System.out.println("Now playing: " + track.getArtist() + " - " + track.getTitle());
         }
     }
-    
+    /**
+     * Play a track in the collection and waits until it is finished
+     *
+     * @param index The index of the track to be played.
+     */
+    public void playSample(int index) {
+        if (indexValid(index)) {
+            Track track = tracks.get(index);
+            System.out.println("Now playing: " + track.getArtist() + " - " + track.getTitle());
+            player.playSample(track.getFilename());
+            System.out.println("... done: " + track.getArtist() + " - " + track.getTitle());
+        }
+    }
     /**
      * Return the number of tracks in the collection.
      * @return The number of tracks in the collection.
