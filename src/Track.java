@@ -1,12 +1,11 @@
 /**
  * Store the details of a music track,
  * such as the artist, title, and file name.
- * 
+ *
  * @author David J. Barnes and Michael Kölling
  * @version 2011.07.31
  */
-public class Track
-{
+public class Track {
     // The artist.
     private String artist;
     // The track's title.
@@ -19,27 +18,28 @@ public class Track
         this.title = title;
         this.filename = filename;
     }
+
     public Track(String filename) {
         this.artist = "unknown";
         this.title = "unknown";
         this.filename = filename;
     }
-    public String getArtist()
-    {
+
+    public String getArtist() {
         return artist;
     }
-    public String getTitle()
-    {
+
+    public String getTitle() {
         return title;
     }
-    public String getFilename()
-    {
+
+    public String getFilename() {
         return filename;
     }
-    public String getDetails()
-    {
+
+    public String getDetails() {
         return artist + ": " + title + "  (file: " + filename + ")";
     }
 
-    
+
 }
