@@ -159,7 +159,7 @@ public class MusicOrganizer {
     private void readLibrary(String folderName) {
         ArrayList<Track> tempTracks = reader.readTracks(folderName, ".mp3");
 
-        // Put all thetracks into the organizer.
+        // Put all the tracks into the organizer.
         for (Track track : tempTracks) {
             addTrack(track);
         }

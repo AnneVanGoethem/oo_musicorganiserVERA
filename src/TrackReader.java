@@ -18,35 +18,45 @@ public class TrackReader {
     }
 
     /**
-     * Read music files from the given library folder
-     * with the given suffix.
+     * Read music files from the given library folder with the given suffix.
      *
      * @param folder The folder to look for files.
      * @param suffix The suffix of the audio type.
+     * @return ArrayList of Track objects
      */
     public ArrayList<Track> readTracks(String folder, final String suffix) {
-        File audioFolder = new File(folder);
-        ArrayList<Track> tracks = new ArrayList<Track>();
-        FilenameFilter fn = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.toLowerCase().endsWith(suffix);
-            }
-        };
-        File[] audioFiles = audioFolder.listFiles(fn);
-        // Put all the matching files into the organizer.
+        final File[] audioFiles = readFilenamesInFolder(folder, suffix);
+        final ArrayList<Track> tracks = new ArrayList<>();
+        // Put all the matching files into an array so that they can be added in the MusicOrganizer.
         for (File file : audioFiles) {
-            Track trackDetails = decodeDetails(file);
+            final Track trackDetails = decodeDetails(file);
             tracks.add(trackDetails);
         }
         return tracks;
     }
 
     /**
-     * Try to decode details of the artist and the title
-     * from the file name.
-     * It is assumed that the details are in the form:
-     * artist-title.mp3
+     * Read all files with given suffix in given folder
+     *
+     * @param folder The folder to look for files.
+     * @param suffix The suffix of the audio type.
+     * @return array of File objects
+     */
+    private File[] readFilenamesInFolder(String folder, String suffix) {
+        final File audioFolder = new File(folder);
+        final FilenameFilter filter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(suffix);
+            }
+        };
+        final File[] audioFiles = audioFolder.listFiles(filter);
+        return audioFiles;
+    }
+
+    /**
+     * Try to decode details of the artist and the title from the file name.
+     * It is assumed that the details are in the form: artist-title.mp3
      *
      * @param file The track file.
      * @return A Track containing the details.
@@ -55,23 +65,16 @@ public class TrackReader {
         // The information needed.
         String artist = "unknown";
         String title = "unknown";
-        String filename = file.getPath();
 
         // Look for artist and title in the name of the file.
-        String details = file.getName();
-        String[] parts = details.split("-");
+        String filename = file.getName();
+        String filenameWithoutSuffix = filename.replaceAll("\\..*", "");
+        String[] filenameParts = filenameWithoutSuffix.split("-");
 
-        if (parts.length == 2) {
-            artist = parts[0];
-            String titlePart = parts[1];
-            // Remove a file-type suffix.
-            parts = titlePart.split("\\.");
-            if (parts.length >= 1) {
-                title = parts[0];
-            } else {
-                title = titlePart;
-            }
+        if (filenameParts.length == 2) {
+            artist = filenameParts[0];
+            title = filenameParts[1];
         }
-        return new Track(artist, title, filename);
+        return new Track(artist, title, file.getPath());
     }
 }
