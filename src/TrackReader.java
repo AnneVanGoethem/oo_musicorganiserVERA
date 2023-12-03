@@ -28,7 +28,7 @@ public class TrackReader {
         File audioFolder = new File(folder);
         ArrayList<Track> tracks = new ArrayList<Track>();
         FilenameFilter fn = new FilenameFilter() {
-        @Override
+            @Override
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().endsWith(suffix);
             }
@@ -41,6 +41,7 @@ public class TrackReader {
         }
         return tracks;
     }
+
     /**
      * Try to decode details of the artist and the title
      * from the file name.
