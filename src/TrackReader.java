@@ -29,7 +29,7 @@ public class TrackReader {
         final ArrayList<Track> tracks = new ArrayList<>();
         // Put all the matching files into an array so that they can be added in the MusicOrganizer.
         for (File file : audioFiles) {
-            final Track trackDetails = decodeDetails(file);
+            final Track trackDetails = decodeDetails(file, suffix);
             tracks.add(trackDetails);
         }
         return tracks;
@@ -59,16 +59,17 @@ public class TrackReader {
      * It is assumed that the details are in the form: artist-title.mp3
      *
      * @param file The track file.
+     * @param suffix The suffix of the audio type.
      * @return A Track containing the details.
      */
-    private Track decodeDetails(File file) {
+    private Track decodeDetails(File file, String suffix) {
         // The information needed.
         String artist = "unknown";
         String title = "unknown";
 
         // Look for artist and title in the name of the file.
         String filename = file.getName();
-        String filenameWithoutSuffix = filename.replaceAll("\\..*", "");
+        String filenameWithoutSuffix = filename.replaceAll(suffix, "");
         String[] filenameParts = filenameWithoutSuffix.split("-");
 
         if (filenameParts.length == 2) {
